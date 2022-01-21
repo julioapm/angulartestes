@@ -10,9 +10,5 @@ export function tratadorDeErros(erro: HttpErrorResponse) {
     // Erro ocorreu no lado do servidor
     msg = `O servidor retornou o erro: ${erro.status} ${erro.statusText}`;
   }
-  return throwError({
-    erro: erro.error,
-    mensagem: msg,
-    mensagemOriginal: erro.message
-  });
+  return throwError(() => new Error(msg));
 }

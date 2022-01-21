@@ -10,15 +10,11 @@ describe('Util helper functions', () => {
         status: 404,
         statusText: 'Not Found'
       });
-      const expectedError = {
-        erro: 'test',
-        mensagem: 'O servidor retornou o erro: 404 Not Found',
-        mensagemOriginal: 'Http failure response for (unknown url): 404 Not Found'
-      };
+      const expectedErrorMessage = 'O servidor retornou o erro: 404 Not Found';
       tratadorDeErros(error).subscribe({
         complete: () => done.fail('should have failed with the 404 error'),
         error: (err) => {
-          expect(err).toEqual(expectedError);
+          expect(err.message).toEqual(expectedErrorMessage);
           done();
         }
       });
@@ -28,15 +24,11 @@ describe('Util helper functions', () => {
       const error = new HttpErrorResponse({
         error: new ErrorEvent('Network error', { message: 'test' })
       });
-      const expectedError = {
-        erro: new ErrorEvent('Network error', { message: 'test' }),
-        mensagem: 'Ocorreu um erro: test',
-        mensagemOriginal: 'Http failure response for (unknown url): undefined undefined'
-      };
+      const expectedErrorMessage = 'Ocorreu um erro: test';
       tratadorDeErros(error).subscribe({
         complete: () => done.fail('should have failed with network error'),
         error: (err) => {
-          expect(err).toEqual(expectedError);
+          expect(err.message).toEqual(expectedErrorMessage);
           done();
         }
       });
